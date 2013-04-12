@@ -1,0 +1,17 @@
+#!/bin/bash
+# Generates a set of EOSes for use with wem
+# Wesley Verne
+
+mkdir EOS_Tables
+cd EOS_Tables
+../wemEG -n 1
+../wemEG -n 2
+../wemEG -n 3
+../wemEG -n 4
+../wemEG -n 5
+../wemEG -n 6
+../wemEG -n 7
+../wemEG -m 1 2 0.25
+../wemEG -m 1 2 0.50
+../wemEG -m 1 2 0.75
+cd ..

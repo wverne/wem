@@ -1,0 +1,11 @@
+# emacs temp files
+*~
+[#]*[#]
+.\#*
+
+# compiled files
+wemEG
+wemEP
+
+# EOS tables
+EOS_Tables*
