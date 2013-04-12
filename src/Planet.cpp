@@ -9,26 +9,16 @@ const double Planet::DIFF_PRECISION    = 0.001;
 
 // public functions
 // setup functions
-Planet::Planet(double setH, double Pc, EOS* EOSc, double Tc)
+Planet::Planet(double setH, double Pc, EOS* EOSc)
 {
-	h        = setH;
-	PCentral = Pc;
-	eos      = EOSc;
-	T        = Tc;
-	rho     = eos->getRho(PCentral, T);
-	rhoLast = rho;
-	dRhods  = 0.0;
-	r     = 0.0;
-	m     = 0.0;
-	mLast = 0.0;
-	Ug = 0.0;
-	W  = 0.0;
-	Ut = 0.0;
-	I  = 0.0;
-	Tn = 0.0;
-	X  = 0.0;
+	h   = setH;
+	eos = EOSc;
+	rVals.push_back(0.0);
+	rhoVals.push_back(eos->getRho(Pc));
+	mVals.push_back(0.0);
+	pVals.push_back(Pc);
 }
-
+/*
 void Planet::addEOS(double newM, EOS* newEOS)
 {
 	if ((mBoundaries.size() > 0) && (newM < mBoundaries.back()))
@@ -65,7 +55,7 @@ void Planet::integrate()
 			cout << rho << endl;
 			i = 0;
 		}
-		i++;//*/
+		i++;
 	}
 }
 
@@ -100,7 +90,6 @@ void Planet::fixMass(double mass)
 		integrate();
 	}
 	cout << endl;
-	//*/
 }
 
 // main functions
@@ -510,21 +499,6 @@ void Planet::updateE()
 	I += (2.0 / 3.0) * (m - mLast) * (r - (h / 2)) * (r - (h / 2));
 }
 
-// print functions
-/*
-void Planet::printHeader(std::ofstream outputFile)
-{
-	outputFile << "Mass (Earth Masses) | Radius (Earth Radii) | Central Pressure (Mbar) | Central Density (g cm^-3) | ";
-	outputFile << "Gravitational Potential (J * 10^32) | Mechanical Energy (J * 10^32) | Thermal Energy (J * 10^32) | ";
-	outputFile << "Total Energy (J * 10^32) | Moment of Inertia Coefficient" << endl;
-}
-
-void Planet::printPlanet(std::ofstream outputFile, Planet* planet, EOS eosC, double T)
-{
-	outputFile << planet->getM()/M_EARTH << " " << planet->getR()/R_EARTH << " " << planet->getPc()/1e11 << " ";
-	outputFile << eosC.getRho(planet->getPc(), T)/1e3 << " " << planet->getUg()/1e32 << " " << planet->getW()/1e32;
-	outputFile << " " << planet->getUt()/1e32 << " " << planet->getE()/1e32 << " " << planet->getI()/(planet->getM()*planet->getR()*planet->getR()) << endl;
-}*/
 
 // meta-functions
 double Planet::dMdP(EOS* initialEOS, queue<double>* mBoundsFixed, queue<EOS*>* eosBoundsFixed)
@@ -620,8 +594,6 @@ void Planet::stepT()
 {
 	if (r < 2*h)
 		return;
-	/*cout << "T: " << T << endl;
-	cout << "X: " << X << endl;//*/
 	double T1 = kT1();
 	double X1 = kX1();
 	double T2 = kT2(X1);
@@ -630,14 +602,6 @@ void Planet::stepT()
 	double X3 = kX3(T2, X2);
 	double T4 = kT4(X3);
 	double X4 = kX4(T3, X3);
-	/*cout << "T1: " << T1 << endl;
-	cout << "X1: " << X1 << endl;
-	cout << "T2: " << T2 << endl;
-	cout << "X2: " << X2 << endl;
-	cout << "T3: " << T3 << endl;
-	cout << "X3: " << X3 << endl;
-	cout << "T4: " << T4 << endl;
-	cout << "X4: " << X4 << endl << endl;//*/
 
 	Tn += (h / 6) * (T1 + (2 * T2) + (2 * T3) + T4);
 	X  += (h / 6) * (X1 + (2 * X2) + (2 * X3) + X4);
@@ -697,3 +661,4 @@ double Planet::kX4(double kT, double kX)
 {
 	return gX(r, Tn + (h * kT), X + (h * kX));
 }
+//*/

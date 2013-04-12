@@ -51,13 +51,13 @@ public:
 	double getMolETherm(double T);   // molar thermal energy (Debye model)
 
 	// main functions
-	double getP(double rho, double T);        // returns density at argument pressure and temperature
-	double getPNoTherm(double P, double T);   // getP without thermal correction
-	double getRho(double P, double T);        // returns pressure at argument pressure and temperature
-	double getdPdRho(double rho, double T);   // returns dPdRho at argument density and temperature
-	double getd2PdRho2(double rho, double T); // returns d2PdRho2 at argument density and temperature
+	double getP(double rho, double T = 0.0);        // returns density at argument pressure and temperature
+	double getPNoTherm(double P, double T = 0.0);   // getP without thermal correction
+	double getRho(double P, double T = 0.0);        // returns pressure at argument pressure and temperature
+	double getdPdRho(double rho, double T = 0.0);   // returns dPdRho at argument density and temperature
+	double getd2PdRho2(double rho, double T = 0.0); // returns d2PdRho2 at argument density and temperature
 
-	double getBeta(double P, double T);       // returns thermal expansion coefficient per unit temperature at given P, T
+	double getBeta(double P, double T = 0.0);       // returns thermal expansion coefficient per unit temperature at given P, T
 
 	void printEOS(double step, double startP, double endP, double T, string filename); // prints the equation of state with given logarithmic step to given filename
 	void printEOSRho(double step, double startRho, double endRho, double T, string filename); // prints on given rho range
@@ -72,15 +72,15 @@ private:
 
 	// --- get pressure functions ---
         // getP with thermal correction
-	double getPTherm(double P, double T);
+	double getPTherm(double P, double T = 0.0);
         // getP for functional EOS
-	double getPFunc(double rho, double T);
+	double getPFunc(double rho, double T = 0.0);
         // getP for functional mix EOS
-	double getPMix(double rho, double T);
+	double getPMix(double rho, double T = 0.0);
         // getP for tabular EOS
-	double getPTab(double rho, double T);
+	double getPTab(double rho, double T = 0.0);
         // added P due to thermal effect
-	double getDeltaPTherm(double rho, double T);
+	double getDeltaPTherm(double rho, double T = 0.0);
         // gruneisen parameter from SESAME extrapolation
 	double grunSESAME(double grun0, double rho);
         // (third order) debye function from tabular data
@@ -108,19 +108,19 @@ private:
 
 	// --- get density functions ---
         // getRho with thermal correction, uses iteration to find correct rho
-	double getRhoTherm(double P, double T);
+	double getRhoTherm(double P, double T = 0.0);
         // getRho without thermal correction
         // uses Newton's method
-	double getRhoNoTherm(double P, double T);
-	double getRhoFunc(double rho, double T);  
-	double getRhoMix(double P, double T);
-	double getRhoTab(double P, double T);
+	double getRhoNoTherm(double P, double T = 0.0);
+	double getRhoFunc(double rho, double T = 0.0);  
+	double getRhoMix(double P, double T = 0.0);
+	double getRhoTab(double P, double T = 0.0);
 
 	// --- get dPdRho functions ---
         // getdPdRho directily from tabular data for dPdRho, d2PdRho2
-	double getdPdRhoTab(double rho, double T);
+	double getdPdRhoTab(double rho, double T = 0.0);
         // getdPdRho by approximation from getP
-	double getdPdRhoNoTab(double rho, double T);
+	double getdPdRhoNoTab(double rho, double T = 0.0);
 };
 
 class ConvergenceFailureException: public std::exception
