@@ -1,3 +1,8 @@
+/*
+ * Represents a Planet
+ * Wesley Verne
+ */
+
 #include "stdafx.h"
 #include "files.h"
 
@@ -6,6 +11,11 @@ using namespace cons;
 // private constants
 const double Planet::ITERATE_PRECISION = 0.00001;
 const double Planet::DIFF_PRECISION    = 0.001;
+
+// boundary comparator setup
+bool Planet::EOSBoundaryCompare::operator()(const EOSBoundary& p1, 
+					    const EOSBoundary& p2) const
+{ return p1.second > p2.second; }
 
 // public functions
 // setup functions
@@ -18,16 +28,21 @@ Planet::Planet(double setH, double Pc, EOS* EOSc)
 	mVals.push_back(0.0);
 	pVals.push_back(Pc);
 }
-/*
+
 void Planet::addEOS(double newM, EOS* newEOS)
+{ boundaries.push(EOSBoundary(newEOS, newM)); }
+
+// debug functions
+void Planet::printBoundaries()
 {
-	if ((mBoundaries.size() > 0) && (newM < mBoundaries.back()))
-		throw "Next EOS boundary must be at greater mass than previous";
-
-	mBoundaries.push(newM);
-	eosBoundaries.push(newEOS);
+    while (!boundaries.empty())
+    {
+	printf("boundary: %d, %f\n", boundaries.top().first->getEosNum(),
+	       boundaries.top().second);
+	boundaries.pop();
+    }
 }
-
+/*
 void Planet::setRecord()
 {
 	isRecording = true;
@@ -237,7 +252,8 @@ void Planet::PrintCMF(double setH, double CMF, double Mi, double Mf, double step
 	}
 }
 
-void Planet::Print(double setH, int EOSnum, double Mi, double Mf, double step, string outFile)
+void Planet::Print(double setH, int EOSnum, double Mi, double Mf, double step, 
+                   string outFile)
 {
    std::ofstream outputFile (outFile.c_str());
 	

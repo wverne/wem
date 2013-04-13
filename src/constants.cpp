@@ -1,3 +1,8 @@
+/*
+ * List of constants for use with wem
+ * Wesley Verne
+ */
+
 #include "stdafx.h"
 #include "files.h"
 

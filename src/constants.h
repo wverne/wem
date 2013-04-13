@@ -1,3 +1,8 @@
+/*
+ * List of constants for use with wem
+ * Wesley Verne
+ */
+
 // inside constants.h
 #ifndef WEM_CONSTANTS_H
 #define WEM_CONSTANTS_H

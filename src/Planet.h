@@ -1,3 +1,8 @@
+/*
+ * Represents a Planet
+ * Wesley Verne
+ */
+
 #pragma once
 
 #include "stdafx.h"
@@ -26,9 +31,15 @@ private:
 
 	// storage for eos boundaries
 	// the given double is the mass at which the EOS changes
-	priority_queue<pair<EOS*, double> > boundaries;
+	typedef pair<EOS*, double> EOSBoundary;
+	struct EOSBoundaryCompare {
+	  bool operator()(const EOSBoundary& p1, const EOSBoundary& p2) const;
+	};
+	priority_queue<EOSBoundary, vector<EOSBoundary>, 
+	               EOSBoundaryCompare> boundaries; 
 
 public:
+
 	// --- public methods ---
 	// --- setup methods ---
 	Planet(double setH, double Pc, EOS* EOSc);
@@ -62,6 +73,10 @@ public:
 	double getI(  int layer);
 	double getk2( int layer);
 
+	// --- debug methods ---
+	// prints the EOS boundaries in order (destroys PQ)
+	void printBoundaries();
+
 private:
 	// --- private methods ---
 	// --- main methods ---
@@ -90,8 +105,10 @@ private:
 
 	// Love number runge-kutta methods
 	void stepT();
-	double fT(double Xn);                       // dT/ds = X
-	double gX(double sn, double Tn, double Xn); // dX/dx = -(2/s) * X - A(s) * T
+	// dT/ds = X
+	double fT(double Xn);
+        // dX/dx = -(2/s) * X - A(s) * T
+	double gX(double sn, double Tn, double Xn); 
 	double A(double sn);
 	double kT1();
 	double kX1();

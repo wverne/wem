@@ -1,3 +1,8 @@
+/*
+ * Represents an Equation of State
+ * Wesley Verne
+ */
+
 // inside EOS.h
 #ifndef EOS_H
 #define EOS_H

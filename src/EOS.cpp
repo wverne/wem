@@ -1,3 +1,8 @@
+/*
+ * Represents an Equation of State
+ * Wesley Verne
+ */
+
 #include "stdafx.h"
 #include "files.h"
 

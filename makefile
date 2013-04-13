@@ -10,6 +10,7 @@ SRC = src
 
 executables = wemEG wemEP
 debug_executables = wemEG_debug wemEP_debug
+test_executables = planetTest
 library = src/files.h src/constants.h src/constants.cpp src/EOS.h src/EOS.cpp src/Planet.h src/Planet.cpp src/stdafx.h
 
 # Non File Targets
@@ -18,8 +19,10 @@ all: $(executables)
 
 debug: $(debug_executables)
 
+test: $(test_executables)
+
 clean: 
-	rm -f $(executables) *_debug *~
+	rm -f $(executables) $(debug_executables) $(test_executables) *~
 
 # File Targets
 
@@ -34,3 +37,6 @@ wemEG_debug: src/wemEG.cpp $(library)
 
 wemEP_debug: src/wemEP.cpp $(library)
 	g++ -g src/wemEP.cpp src/constants.cpp src/EOS.cpp src/Planet.cpp -o wemEP_debug
+
+planetTest: src/PlanetTest.cpp $(library)
+	g++ -g src/PlanetTest.cpp src/constants.cpp src/EOS.cpp src/Planet.cpp -o planetTest

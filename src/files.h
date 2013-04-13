@@ -1,3 +1,8 @@
+/*
+ * List of wem header files
+ * Wesley Verne
+ */
+
 #pragma once
 
 #include "EOS.h"

@@ -1,5 +1,5 @@
 /* 
- * wemEG: Equation of State Generator
+ * wemEP: Exoplanet Profiler
  * Wesley Verne
  */
 
