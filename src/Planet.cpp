@@ -21,68 +21,46 @@ bool Planet::EOSBoundaryCompare::operator()(const EOSBoundary& p1,
 // setup functions
 Planet::Planet(double setH, double Pc, EOS* EOSc)
 {
-	h   = setH;
-	eos = EOSc;
-	rVals.push_back(0.0);
-	rhoVals.push_back(eos->getRho(Pc));
-	mVals.push_back(0.0);
-	pVals.push_back(Pc);
+    h   = setH;
+    eos = EOSc;
+    rVals.push_back(0.0);
+    rhoVals.push_back(eos->getRho(Pc));
+    mVals.push_back(0.0);
+    pVals.push_back(Pc);
 }
 
 void Planet::addEOS(double newM, EOS* newEOS)
 { boundaries.push(EOSBoundary(newEOS, newM)); }
 
-// debug functions
-void Planet::printBoundaries()
+void Planet::setVerbose(bool verboseSet) { verbose = verboseSet; }
+
+void Planet::setT(double newT) { T = newT; }
+
+/*void Planet::integrate()
 {
-    while (!boundaries.empty())
+    if (pVals.back() <= 0.0)
+	throw "Cannot integrate complete planet";
+
+    int i = 0;
+    while (pVals.back() > 0.0)
     {
-	printf("boundary: %d, %f\n", boundaries.top().first->getEosNum(),
-	       boundaries.top().second);
-	boundaries.pop();
-    }
-}
-/*
-void Planet::setRecord()
-{
-	isRecording = true;
-}
-
-void Planet::integrate()
-{
-	//if (!(eos->getP(rho, 0) > 0.0))
-	//	throw "Cannot integrate complete planet";
-
-	int i = 0;
-	while (eos->getP(rho, 0) > 0.0)
+	if (boundaries.size() > 0)
 	{
-		if (isRecording)
-			record();
-		if (mBoundaries.size() > 0)
-		{
-			checkBoundary();
-		}
-		step();
-		updateE();
-		stepT();/*
-		if (i == 10000)
-		{
-			cout << rho << endl;
-			i = 0;
-		}
-		i++;
+	    checkBoundary();
 	}
-}
-
-void Planet::printRecord(string outFile)
-{
-   std::ofstream outputFile (outFile.c_str());
-
-	outputFile << "Radius (Earth Radii) | Density (g cm^-3) | Pressure (Mbar) | Mass (Earth Masses)";
-}
+	step();
+	stepT();
+	if (verbose && (i == 10000))
+	{
+	    cout << rhoVals.back() << endl;
+	    i = 0;
+	}
+	i++;
+    }
+}//*/
 
 // meta-functions
-void Planet::fixMass(double mass)
+/*void Planet::fixMass(double mass)
 {
 	if (eos->getP(rho, T) < 0.0)
 		throw "Cannot fix mass of complete planet";
@@ -95,7 +73,8 @@ void Planet::fixMass(double mass)
 	while ((abs(m - mass) / mass) > ITERATE_PRECISION)
 	{
 		cout << m/M_EARTH << endl;
-		PCentral -= ((m - mass) / dMdP(initialEOS, &mBoundsFixed, &eosBoundsFixed));
+		PCentral -= ((m - mass) / dMdP(initialEOS, &mBoundsFixed, 
+					       &eosBoundsFixed));
 		clearIntegration();
 		eos = initialEOS;
 		rho = eos->getRho(PCentral, T);
@@ -105,153 +84,112 @@ void Planet::fixMass(double mass)
 		integrate();
 	}
 	cout << endl;
-}
+}//*/
 
 // main functions
-double Planet::getR()
+void Planet::printRecord(string outFile)
 {
-	return r;
+    ofstream outputFile (outFile.c_str());
+
+    outputFile << "Radius (Earth Radii) | Density (g cm^-3) | Pressure (Mbar) | Mass (Earth Masses)\n";
+
+    for (int i = 0; i < getNumLayers(); i++)
+	printf("%d %d %d %d", rVals[i] / R_EARTH, rhoVals[i] / 1e3,
+	       pVals[i] / 1e11, mVals[i] / M_EARTH); 
 }
 
-double Planet::getRho()
+int Planet::getNumLayers() { return rVals.size(); }
+
+double Planet::getRTotal() { return rVals.back(); }
+
+double Planet::getRhoTotal()
 {
-	return rho;
+    return (3.0 * mVals.back()) / (4.0 * PI * pow(rVals.back(), 3));
 }
 
-double Planet::getM()
+double Planet::getMTotal() { return mVals.back(); }
+
+double Planet::getPSurface() { return pVals.back(); }
+
+double Planet::getPc() { return pVals.front(); }
+
+double Planet::getT() { return T; }
+
+double Planet::getR(int layer)
 {
-	if (m > 0)
-		return m;
-	return mLast;
+    if ((layer >= 0) && (layer < getNumLayers()))
+	return rVals[layer];
+    else
+	throw "Not a vaild layer";
 }
 
-double Planet::getT()
+double Planet::getRho(int layer)
 {
-	return T;
+    if ((layer >= 0) && (layer < getNumLayers()))
+	return rhoVals[layer];
+    else
+	throw "Not a vaild layer";
 }
 
-double Planet::getPc()
+double Planet::getM(int layer)
 {
-	return PCentral;
+    if ((layer >= 0) && (layer < getNumLayers()))
+	return mVals[layer];
+    else
+	throw "Not a vaild layer";
 }
 
-double Planet::getUg()
+double Planet::getP(int layer)
 {
-	return Ug;
+    if ((layer >= 0) && (layer < getNumLayers()))
+	return pVals[layer];
+    else
+	throw "Not a vaild layer";
 }
 
-double Planet::getW()
+double Planet::getUg(int layer)
 {
-	return W;
+    throw "Method not implemented";
 }
 
-double Planet::getUt()
+double Planet::getW(int layer)
 {
-	return Ut;
+    throw "Method not implemented";
 }
 
-double Planet::getE()
+double Planet::getUt(int layer)
 {
-	return Ut + W + Ug;
+    throw "Method not implemented";
 }
 
-double Planet::getI()
+double Planet::getE(int layer)
 {
-	return I;
+    throw "Method not implemented";
 }
 
-double Planet::getk2()
+double Planet::getI(int layer)
+{
+    throw "Method not implemented";
+}
+
+/*double Planet::getk2()
 {
 	return ((Tn * r) / (G * mLast)) - 1.0;
-}
+}//*/
 
-// static functions
-Planet* Planet::PlanetCMF(double setH, double CMF, double M)
+// debug functions
+void Planet::printBoundaries()
 {
-	EOS* eos1 = new EOS();
-	eos1->setNum(1);
-	EOS* eos2 = new EOS();
-	eos2->setNum(2);
-
-	Planet* planet = new Planet(setH, eos1->getP(16000, 0), eos1, 0.0);
-	planet->addEOS(M*CMF, eos2);
-	planet->fixMass(M);
-
-	return planet;
+    while (!boundaries.empty())
+    {
+	printf("boundary: %d, %f\n", boundaries.top().first->getEosNum(),
+	       boundaries.top().second);
+	boundaries.pop();
+    }
 }
 
-Planet* Planet::PlanetCMF(double setH, double CMF, double M, double T)
-{
-	EOS* eos1 = new EOS();
-	eos1->setNum(1);
-	eos1->setThermal(1);
-	EOS* eos2 = new EOS();
-	eos2->setNum(2);
-	eos2->setThermal(2);
 
-	double guessP = eos1->getP(10000, 0);
-	if (M > 5*M_EARTH)
-		guessP = eos1->getP(25000, 0);
-	else if (M > 1*M_EARTH)
-		guessP = eos1->getP(16000, 0);
-	else if (M > 0.1*M_EARTH)
-		guessP = eos1->getP(11000, 0);
-
-	Planet* planet = new Planet(setH, guessP, eos1, T);
-	planet->addEOS(M*CMF, eos2);
-	planet->fixMass(M);
-
-	return planet;
-}
-
-Planet* Planet::PlanetCMF(double setH, double CMF, double M, double T, double guessP)
-{
-	EOS* eos1 = new EOS();
-	eos1->setMixTab("RhovP_Fe_0K.txt");
-	eos1->setThermal(1);
-	EOS* eos2 = new EOS();
-	eos2->setMixTab("RhovP_pv_Seager_0K.txt");
-	eos2->setThermal(2);
-
-	Planet* planet = new Planet(setH, guessP, eos1, T);
-	planet->addEOS(M*CMF, eos2);
-	planet->fixMass(M);
-
-	return planet;
-}
-
-void Planet::PrintCMF(double setH, double CMF, double Mi, double Mf, double step, double T, string outFile)
-{
-   std::ofstream outputFile (outFile.c_str());
-
-	outputFile << "Mass (Earth Masses) | Radius (Earth Radii) | Central Pressure (Mbar) | Central Density (g cm^-3) | ";
-	outputFile << "Gravitational Potential (J * 10^32) | Mechanical Energy (J * 10^32) | Thermal Energy (J * 10^32) | ";
-	outputFile << "Total Energy (J * 10^32) | Moment of Inertia Coefficient | Love Number k2" << endl;
-
-	EOS eosC = EOS();
-	eosC.setMixTab("RhovP_Fe_0K.txt");
-	eosC.setThermal(1);
-
-	double M = Mi;
-	double logM = log10(Mi);
-	double guessP = eosC.getP(15000, T);
-
-	while (M < Mf)
-	{
-		M = pow(10, logM);
-
-		Planet* planet = PlanetCMF(setH, CMF, M, T, guessP);
-		
-		outputFile << planet->getM()/M_EARTH << " " << planet->getR()/R_EARTH << " " << planet->getPc()/1e11 << " ";
-		outputFile << eosC.getRho(planet->getPc(), T)/1e3 << " " << planet->getUg()/1e32 << " " << planet->getW()/1e32;
-		outputFile << " " << planet->getUt()/1e32 << " " << planet->getE()/1e32 << " ";
-		outputFile << planet->getI()/(planet->getM()*planet->getR()*planet->getR()) << " " << planet->getk2() << endl;
-
-		guessP = planet->getPc();
-		logM += step;
-	}
-}
-
+/*
 void Planet::Print(double setH, int EOSnum, double Mi, double Mf, double step, 
                    string outFile)
 {

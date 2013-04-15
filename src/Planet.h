@@ -20,8 +20,10 @@ private:
 	static const double DIFF_PRECISION;    // precision when differentiating
 
 	// private variables
-	double h;    // radius step size
-	EOS *eos;    // current EOS
+	double h;     // radius step size
+	EOS *eos;     // current EOS
+	bool verbose; // verbose output
+	double T;     // temperature
 	
 	// storage for values
 	vector<double> rVals;   // radius
@@ -45,22 +47,27 @@ public:
 	Planet(double setH, double Pc, EOS* EOSc);
 	// add a mass boundary and eos
 	void addEOS(double newM, EOS* newEOS);  
+	// set verbose output
+	void setVerbose(bool verboseSet);
+	// set temperature
+	void setT(double newT);
 	// integrate the planet (this may only be done if surface pressure > 0)
 	void integrate();  
-	// print the planet's profile to outFile
-	void printRecord(string outFile);
 
 	// --- meta-methods ---
 	// find and integrate from the central P which yields argument mass
 	void fixMass(double mass); 
 
 	// --- main methods ---
+	// print the planet's profile to outFile
+	void printRecord(string outFile);
 	int getNumLayers();
 	double getRTotal();
 	double getRhoTotal();
 	double getMTotal();
 	double getPSurface();
 	double getPc();
+	double getT();
 
 	double getR(  int layer);
 	double getRho(int layer);
@@ -71,7 +78,7 @@ public:
 	double getUt( int layer);
 	double getE(  int layer);
 	double getI(  int layer);
-	double getk2( int layer);
+	double getk2();
 
 	// --- debug methods ---
 	// prints the EOS boundaries in order (destroys PQ)

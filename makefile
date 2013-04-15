@@ -22,7 +22,7 @@ debug: $(debug_executables)
 test: $(test_executables)
 
 clean: 
-	rm -f $(executables) $(debug_executables) $(test_executables) *~
+	rm -f $(executables) $(debug_executables) $(test_executables)
 
 # File Targets
 
