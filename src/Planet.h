@@ -73,11 +73,11 @@ public:
 	double getRho(int layer);
 	double getM(  int layer);
 	double getP(  int layer);
-	double getUg( int layer);
-	double getW(  int layer);
-	double getUt( int layer);
-	double getE(  int layer);
-	double getI(  int layer);
+	double getUg(); // gravitational potential
+	double getW();
+	double getUt();
+	double getE();
+	double getI();
 	double getk2();
 
 	// --- debug methods ---
@@ -93,7 +93,6 @@ private:
 	void checkBoundary(); 
 
 	// --- meta-methods ---
-	double dMdP();
 	void clearIntegration();
 
 	// --- runge-kutta methods ---
