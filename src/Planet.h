@@ -60,7 +60,7 @@ public:
 
 	// --- main methods ---
 	// print the planet's profile to outFile
-	void printRecord(string outFile);
+	void printRecord(string outFile, int interval = 1);
 	int getNumLayers();
 	double getRTotal();
 	double getRhoTotal();
@@ -91,9 +91,6 @@ private:
 	void step();
 	// check if EOS boundary reached, change EOS (conserving P) if so
 	void checkBoundary(); 
-
-	// --- meta-methods ---
-	void clearIntegration();
 
 	// --- runge-kutta methods ---
 	// dRho/dR = g(r) * rho / (dP/dRho)

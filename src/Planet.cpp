@@ -27,6 +27,8 @@ Planet::Planet(double setH, double Pc, EOS* EOSc)
     rhoVals.push_back(eos->getRho(Pc));
     mVals.push_back(0.0);
     pVals.push_back(Pc);
+    verbose = false;
+    T = 0.0;
 }
 
 void Planet::addEOS(double newM, EOS* newEOS)
@@ -84,15 +86,24 @@ void Planet::integrate()
 }//*/
 
 // main functions
-void Planet::printRecord(string outFile)
+void Planet::printRecord(string outFile, int interval)
 {
     ofstream outputFile (outFile.c_str());
 
-    outputFile << "Radius (Earth Radii) | Density (g cm^-3) | Pressure (Mbar) | Mass (Earth Masses)\n";
+    outputFile << "Radius (Earth Radii) | Density (g cm^-3) | ";
+    outputFile << "Pressure (Mbar) | Mass (Earth Masses)\n";
 
-    for (int i = 0; i < getNumLayers(); i++)
-	printf("%d %d %d %d", rVals[i] / R_EARTH, rhoVals[i] / 1e3,
-	       pVals[i] / 1e11, mVals[i] / M_EARTH); 
+    for (int i = 0; i < (getNumLayers() - 1); i += interval)
+    {
+	outputFile << (rVals[i] / R_EARTH) << " ";
+	outputFile << (rhoVals[i] / 1e3) << " ";
+	outputFile << (pVals[i] / 1e11) << " ";
+	outputFile << (mVals[i] / M_EARTH) << "\n";
+    }
+    outputFile << (rVals.back() / R_EARTH) << " ";
+    outputFile << (rhoVals.back() / 1e3) << " ";
+    outputFile << (pVals.back() / 1e11) << " ";
+    outputFile << (mVals.back() / M_EARTH) << "\n";
 }
 
 int Planet::getNumLayers() { return rVals.size(); }
