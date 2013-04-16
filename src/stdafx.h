@@ -3,7 +3,9 @@
 // are changed infrequently
 //
 
-#pragma once
+// inside stdafx.h
+#ifndef STDAFX_WEM
+#define STDAFX_WEM
 
 //#include "targetver.h"
 
@@ -23,4 +25,4 @@
 
 using namespace std;
 
-// TODO: reference additional headers your program requires here
+#endif

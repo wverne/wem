@@ -8,10 +8,6 @@
 
 using namespace cons;
 
-// private constants
-const double Planet::ITERATE_PRECISION = 0.00001;
-const double Planet::DIFF_PRECISION    = 0.001;
-
 // boundary comparator setup
 bool Planet::EOSBoundaryCompare::operator()(const EOSBoundary& p1, 
 					    const EOSBoundary& p2) const
@@ -57,33 +53,6 @@ void Planet::integrate()
 	i++;
     }
 }
-
-// meta-functions
-/*void Planet::fixMass(double mass)
-{
-	if (eos->getP(rho, T) < 0.0)
-		throw "Cannot fix mass of complete planet";
-	EOS* initialEOS = eos;
-	queue<double> mBoundsFixed = mBoundaries;
-	queue<EOS*> eosBoundsFixed = eosBoundaries;
-
-	integrate();
-
-	while ((abs(m - mass) / mass) > ITERATE_PRECISION)
-	{
-		cout << m/M_EARTH << endl;
-		PCentral -= ((m - mass) / dMdP(initialEOS, &mBoundsFixed, 
-					       &eosBoundsFixed));
-		clearIntegration();
-		eos = initialEOS;
-		rho = eos->getRho(PCentral, T);
-		mBoundaries   = mBoundsFixed;
-		eosBoundaries = eosBoundsFixed;
-		setRecord();
-		integrate();
-	}
-	cout << endl;
-}//*/
 
 // main functions
 void Planet::printRecord(string outFile, int interval)

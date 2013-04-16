@@ -163,12 +163,13 @@ int main(int argc, const char* argv[])
    if (verbose)
       printf("Calculating EOS...\n");
 
-   // calculate and print EOS
+   // calculate and output EOS table
    if (useP)
       eos->printEOS(step, startP, endP, T, oFilename);
    else
       eos->printEOSRho(step, startRho, endRho, T, oFilename);      
 
+   delete eos;
    return 0;
 }
 

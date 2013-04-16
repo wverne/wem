@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include "constants.h"
 #include "EOS.h"
 #include "Planet.h"
-#include "constants.h"
+#include "PlanetComp.h"
+

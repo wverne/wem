@@ -11,7 +11,7 @@ SRC = src
 executables = wemEG wemEP
 debug_executables = wemEG_debug wemEP_debug
 test_executables = planetTest
-library = src/files.h src/constants.h src/constants.cpp src/EOS.h src/EOS.cpp src/Planet.h src/Planet.cpp src/stdafx.h
+library = src/stdafx.h src/files.h src/constants.h src/constants.cpp src/EOS.h src/EOS.cpp src/Planet.h src/Planet.cpp src/PlanetComp.h src/PlanetComp.cpp
 
 # Non File Targets
 
@@ -30,13 +30,13 @@ wemEG: src/wemEG.cpp $(library)
 	g++ -O3 src/wemEG.cpp src/constants.cpp src/EOS.cpp -o wemEG
 
 wemEP: src/wemEP.cpp $(library)
-	g++ -O3 src/wemEP.cpp src/constants.cpp src/EOS.cpp src/Planet.cpp -o wemEP
+	g++ -O3 src/wemEP.cpp src/constants.cpp src/EOS.cpp src/Planet.cpp src/PlanetComp.cpp -o wemEP
 
 wemEG_debug: src/wemEG.cpp $(library)
 	g++ -g src/wemEG.cpp src/constants.cpp src/EOS.cpp -o wemEG_debug
 
 wemEP_debug: src/wemEP.cpp $(library)
-	g++ -g src/wemEP.cpp src/constants.cpp src/EOS.cpp src/Planet.cpp -o wemEP_debug
+	g++ -g src/wemEP.cpp src/constants.cpp src/EOS.cpp src/Planet.cpp src/PlanetComp.cpp -o wemEP_debug
 
 planetTest: src/PlanetTest.cpp $(library)
 	g++ -g src/PlanetTest.cpp src/constants.cpp src/EOS.cpp src/Planet.cpp -o planetTest
