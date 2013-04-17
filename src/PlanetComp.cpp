@@ -11,7 +11,7 @@ using namespace cons;
 
 // constants
 const double PlanetComp::ITERATE_PRECISION = 0.00001;
-const int    PlanetComp::ITERATE_CUTOFF    = 100;
+const int    PlanetComp::ITERATE_CUTOFF    = 20;
 const double PlanetComp::DIFF_PRECISION    = 0.001;
 const double PlanetComp::INITIAL_P         = 1e10;
 
