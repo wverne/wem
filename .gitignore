@@ -6,6 +6,12 @@
 # compiled files
 wemEG
 wemEP
+wemEG_debug
+wemEP_debug
+planetTest
 
 # EOS tables
 EOS_Tables*
+
+# wemEP output
+wemEP_out
