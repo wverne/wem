@@ -331,10 +331,10 @@ void EOS::reset()
    tabdPdRho   = NULL;
    tabd2PdRho2 = NULL;
 
-   eosNum   = NULL;
-   eosNum2  = NULL;
-   mixFrac  = NULL;
-   thermNum = NULL;
+   eosNum   = 0;
+   eosNum2  = 0;
+   mixFrac  = 0.0;
+   thermNum = 0;
 }
 
 double EOS::getMolMass(int eosNum)
