@@ -10,8 +10,8 @@
 using namespace cons;
 
 // constants
-const double PlanetComp::ITERATE_PRECISION = 0.00001;
-const int    PlanetComp::ITERATE_CUTOFF    = 20;
+const double PlanetComp::ITERATE_PRECISION = 0.0001;
+const int    PlanetComp::ITERATE_CUTOFF    = 10;
 const double PlanetComp::DIFF_PRECISION    = 0.001;
 const double PlanetComp::INITIAL_P         = 1e10;
 
@@ -70,13 +70,13 @@ Planet PlanetComp::fixMass(double mass)
 
 	if (i > ITERATE_CUTOFF)
 	{
-	    cerr << "Integration cutoff exceeded\n";
+	    cerr << "Iteration cutoff exceeded\n";
 	    break;
 	}
 	i++;
     }
     if (verbose)
-	cout << "\n";
+	cout << m/M_EARTH << "\n";
 
     return createPlanet(pCentral, m);
 }

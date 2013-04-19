@@ -7,9 +7,9 @@
 
 --- wemEP ---
 -Add radius fixing?
+-Output planet properties to terminal
+	>Love number
+	>Moment of inertia
+	>Energies
 
 -Create wemMR (wem Mass-Radius)
-
--Love number, ect?
-
--Gravitational binding energy
