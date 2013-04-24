@@ -64,6 +64,7 @@ public:
     double getUt();
     double getE();
     double getI();
+    double getICoeff();
     double getk2();
 
     double getR(  int layer);

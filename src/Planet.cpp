@@ -92,6 +92,56 @@ double Planet::getPc() { return pVals.front(); }
 
 double Planet::getT() { return T; }
 
+double Planet::getUg()
+{
+    double Ug = 0.0;
+    for (int i = 1; i < getNumLayers(); i++)
+	Ug -= G * (mVals[i] - mVals[i-1]) * mVals[i-1] 
+	    / (rVals[i] - (h / 2.0));
+
+    return Ug;
+}
+
+double Planet::getW()
+{
+    double W = 0.0;
+    for (int i = 1; i < getNumLayers(); i++)
+	W += pVals[i] * (4.0 / 3.0) * PI * 
+	     (pow(rVals[i], 3) - pow(rVals[i-1], 3));
+
+    return W;
+}
+
+double Planet::getUt()
+{
+    throw "Method not implemented";
+}
+
+double Planet::getE()
+{
+    throw "Method not implemented";
+}
+
+double Planet::getI()
+{
+    double I = 0.0;
+    for (int i = 1; i < getNumLayers(); i++)
+	I += (2.0 / 3.0) * (mVals[i] - mVals[i-1]) 
+	   * pow(rVals[i] - (h / 2.0), 2);
+ 
+    return I;
+}
+
+double Planet::getICoeff()
+{
+    return getI() / (getMTotal() * getRTotal() * getRTotal());
+}
+
+double Planet::getk2()
+{
+    return ((getT() * getRTotal()) / (G * getMTotal())) - 1.0;
+}
+
 double Planet::getR(int layer)
 {
     if ((layer >= 0) && (layer < getNumLayers()))
@@ -122,36 +172,6 @@ double Planet::getP(int layer)
 	return pVals[layer];
     else
 	throw "Not a vaild layer";
-}
-
-double Planet::getUg()
-{
-    throw "Method not implemented";
-}
-
-double Planet::getW()
-{
-    throw "Method not implemented";
-}
-
-double Planet::getUt()
-{
-    throw "Method not implemented";
-}
-
-double Planet::getE()
-{
-    throw "Method not implemented";
-}
-
-double Planet::getI()
-{
-    throw "Method not implemented";
-}
-
-double Planet::getk2()
-{
-    return ((getT() * getRTotal()) / (G * getMTotal())) - 1.0;
 }
 
 // debug functions

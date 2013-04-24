@@ -144,11 +144,13 @@ int main(int argc, const char* argv[])
     Planet planet = planetComp.fixMass(mass);
     planet.printRecord(oFilename, interval);
     printf("Planet Properties\n");
-    printf("Mass  (Earth masses): %f\n", planet.getMTotal()/M_EARTH);
-    printf("Radius (Earth Radii): %f\n", planet.getRTotal()/R_EARTH);
-    printf("Central P     (MBar): %f\n", planet.getPc()/1e11);
-    printf("Central Rho (g/cm^3): %f\n", planet.getRho(0)/1e3);
-    printf("\n");
+    printf("Mass  (Earth masses): %6.3f\n",  planet.getMTotal()/M_EARTH);
+    printf("Radius (Earth Radii): %6.3f\n",  planet.getRTotal()/R_EARTH);
+    printf("Central P     (MBar): %6.3f\n",  planet.getPc()/1e11);
+    printf("Central Rho (g/cm^3): %6.3f\n",  planet.getRho(0)/1e3);
+    printf("Ug               (J): %10.3e\n", planet.getUg());
+    printf("W                (J): %10.3e\n", planet.getW());
+    printf("I Coefficient       : %6.3f\n",  planet.getICoeff());
 
     delete eosc;
     return 0;

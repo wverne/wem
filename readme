@@ -101,6 +101,9 @@ impossible to know the mass or radius of a planet before it is integrated,
 the integrator uses the Newton-Raphson method to find the appropriate 
 starting (central) pressure to yield the given mass.
 
+The planet's profile is written to a given output file, and holistic 
+properties of the planet are printed to the terminal.
+
 Temperature and EOS mixes are supported via appropriate settings in
 wemEG (if EOS numbers are entered instead of tables, that EOS at 0K will
 be used).
@@ -155,11 +158,13 @@ core EOS and any number of EOS - mass fraction pairs may be specified.
 Finally, a mass range and interval may be specified. wemMR generates 
 planets with the given EOS composition using the methods of wemEP.
 
+The mass-radius and other data is written to a given output file.
+
 Temperature and EOS mixes are supported via appropriate settings in
 wemEG (if EOS numbers are entered instead of tables, that EOS at 0K will
 be used).
 
-Usage: wemEP arguments
+Usage: wemMR arguments
 Arguments consist of option-parameter sets.  Options begin with "-" and
 set the parameters for the exoplanet profiler.  All parameters have
 default values.  Units vary; see the individual arguments.
