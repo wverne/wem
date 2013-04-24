@@ -59,17 +59,17 @@ public:
     double getPSurface();
     double getPc();
     double getT();
-
-    double getR(  int layer);
-    double getRho(int layer);
-    double getM(  int layer);
-    double getP(  int layer);
     double getUg(); // gravitational potential
     double getW();
     double getUt();
     double getE();
     double getI();
     double getk2();
+
+    double getR(  int layer);
+    double getRho(int layer);
+    double getM(  int layer);
+    double getP(  int layer);
 
     // --- debug methods ---
     // prints the EOS boundaries in order (destroys PQ)
