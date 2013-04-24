@@ -54,6 +54,10 @@ public:
     // --- main methods ---
     // return a planet of the given mass with this composition
     Planet fixMass(double mass); 
+    // return a planet of the given radius with this composition
+    // NOT IMPLEMENTED: Difficult because EOS boundaries are defined
+    // on mass
+    Planet fixRadius(double radius); 
 
 private:
     // --- private methods ---
@@ -61,9 +65,13 @@ private:
     // with this composition, using mGuess to create boundaries
     Planet createPlanet(double Pc, double mGuess = M_EARTH);
 
-    // determines dMdP for a planet with the given central pressure
+    // determines dM/dP for a planet with the given central pressure
     // with this composition, using mGuess to create boundaries
     double dMdP(double Pc, double mGuess = M_EARTH);
+
+    // determines dR/dP for a planet with the given central pressure
+    // with this composition, using mGuess to create boundaries
+    double dRdP(double Pc, double mGuess = M_EARTH);
 };
 
 #endif

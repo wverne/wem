@@ -16,7 +16,7 @@ const double PlanetComp::DIFF_PRECISION    = 0.001;
 const double PlanetComp::INITIAL_P         = 1e10;
 
 // --- public functions ---
-// setup functionsa
+// setup functions
 PlanetComp::PlanetComp(double setH, EOS* EOSc)
 {
     h = setH;
@@ -43,7 +43,6 @@ void PlanetComp::setVerbose(bool verboseSet) { verbose = verboseSet; }
 void PlanetComp::setT(double newT) { T = newT; }
 
 // --- main methods ---
-// return a planet of the given mass with this composition
 Planet PlanetComp::fixMass(double mass)
 {
     if (mass <= 0)
@@ -81,6 +80,12 @@ Planet PlanetComp::fixMass(double mass)
     return createPlanet(pCentral, m);
 }
 
+Planet PlanetComp::fixRadius(double radius)
+{
+    throw "Method not implemented";
+    // difficult because EOS boundaries are defined on mass
+}
+
 // --- private methods ---
 Planet PlanetComp::createPlanet(double Pc, double mGuess)
 {
@@ -100,8 +105,16 @@ Planet PlanetComp::createPlanet(double Pc, double mGuess)
 
 double PlanetComp::dMdP(double Pc, double mGuess)
 {
-    Planet planetM = createPlanet(Pc * (1 - DIFF_PRECISION), mGuess);
-    Planet planetP = createPlanet(Pc * (1 + DIFF_PRECISION), mGuess);
-    return (planetP.getMTotal() - planetM.getMTotal()) / 
+    Planet planetLess = createPlanet(Pc * (1 - DIFF_PRECISION), mGuess);
+    Planet planetMore = createPlanet(Pc * (1 + DIFF_PRECISION), mGuess);
+    return (planetMore.getMTotal() - planetLess.getMTotal()) / 
+	   (2 * Pc * DIFF_PRECISION);
+}
+
+double PlanetComp::dRdP(double Pc, double mGuess)
+{
+    Planet planetLess = createPlanet(Pc * (1 - DIFF_PRECISION), mGuess);
+    Planet planetMore = createPlanet(Pc * (1 + DIFF_PRECISION), mGuess);
+    return (planetMore.getRTotal() - planetLess.getRTotal()) / 
 	   (2 * Pc * DIFF_PRECISION);
 }

@@ -132,7 +132,8 @@ int main(int argc, const char* argv[])
 	else
 	{
 	    fprintf(stderr, "Unrecognized argument: %s\n", argv[i]);
-	    i++;
+	    printHelp(argv[0]);
+	    return 0;
 	}
     }
 
