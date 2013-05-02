@@ -58,6 +58,10 @@ public:
     // NOT IMPLEMENTED: Difficult because EOS boundaries are defined
     // on mass
     Planet fixRadius(double radius); 
+    // create planets with this composition in the given mass range and print
+    // their info to the given output filename
+    void printMR(double startMass, double endMass, double step, 
+		 string outFile);
 
 private:
     // --- private methods ---

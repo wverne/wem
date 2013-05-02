@@ -86,6 +86,28 @@ Planet PlanetComp::fixRadius(double radius)
     // difficult because EOS boundaries are defined on mass
 }
 
+void PlanetComp::printMR(double startMass, double endMass, double step,
+			 string outFile)
+{
+    ofstream outputFile (outFile.c_str());
+    outputFile << "Mass (Earth Masses) | Radius (Earth Radii) | ";
+    outputFile << "Central Pressure (Mbar) | Central Density (g cm^-3) | ";
+    outputFile << "Gravitational Potential (J) | Mechanical Energy (J) | ";
+    outputFile << "Moment of Inertia Coefficient\n";
+
+    for (double mass = startMass, mass <= endMass, mass += step)
+    {
+	Planet planet = fixMass(mass);
+	outputFile << (planet.getMTotal() / M_EARTH) << " ";
+	outputFile << (planet.getRTotal() / R_EARTH) << " ";
+	outputFile << (planet.getPc() / 1e11) << " ";
+	outputFile << (planet.getRho(0) / 1e3) << " ";
+	outputFile << planet.getUg() << " ";
+	outputFile << planet.getW() << " ";
+	outputFile << planet.getICoeff() << "\n";
+    }
+}
+
 // --- private methods ---
 Planet PlanetComp::createPlanet(double Pc, double mGuess)
 {
