@@ -95,7 +95,9 @@ void PlanetComp::printMR(double startMass, double endMass, double step,
     outputFile << "Gravitational Potential (J) | Mechanical Energy (J) | ";
     outputFile << "Moment of Inertia Coefficient\n";
 
-    for (double mass = startMass, mass <= endMass, mass += step)
+    for (double mass = startMass;
+	 mass <= (endMass * (1 + ITERATE_PRECISION));
+	 mass += step)
     {
 	Planet planet = fixMass(mass);
 	outputFile << (planet.getMTotal() / M_EARTH) << " ";
