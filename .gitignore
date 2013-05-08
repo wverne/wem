@@ -13,5 +13,6 @@ planetTest
 # EOS tables
 EOS_Tables*
 
-# wemEP output
+# wem output
 wemEP_out
+wemMR_out
