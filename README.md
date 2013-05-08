@@ -38,7 +38,7 @@ Temperature and EOS mixes are supported via appropriate settings in
 wemEG (if EOS numbers are entered instead of tables, that EOS at 0K will
 be used).
 
-###----- wemMR: Mass-Radius Data Generator ----- CODE INCOMPLETE
+###----- wemMR: Mass-Radius Data Generator -----
 wemMR generates mass-radius plots for a given composition, consisting
 of mass, radius, central pressure, central density, energy data
 (gravitational, mechanical, and thermal), and rotaton data (moment of
